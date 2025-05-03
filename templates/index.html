@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Potato Disease Prediction</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            margin-top: 50px;
+        }
+        h1 {
+            text-align: center;
+            color: #4CAF50;
+        }
+        .result {
+            text-align: center;
+        }
+        .result h3 {
+            color: #4CAF50;
+        }
+        .confidence {
+            font-weight: bold;
+            color: #ff9800;
+        }
+        .description {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        .description h4 {
+            color: #333;
+        }
+        .description p {
+            font-size: 16px;
+            color: #555;
+        }
+        .upload-section {
+            text-align: center;
+        }
+        input[type="file"] {
+            margin-bottom: 20px;
+        }
+        input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+        .uploaded-image {
+            margin-top: 20px;
+        }
+        .uploaded-image img {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Potato Disease Prediction</h1>
+        <form action="/predict" method="POST" enctype="multipart/form-data">
+            <div class="upload-section">
+                <label for="file">Upload Potato Leaf Image:</label><br>
+                <input type="file" name="file" required><br><br>
+                <input type="submit" value="Predict">
+            </div>
+        </form>
+
+        {% if prediction %}
+            <div class="result">
+                <h3>Prediction: {{ prediction }}</h3>
+                <p class="confidence">Confidence: {{ confidence }}%</p>
+
+                <div class="description">
+                    <h4>Class Explanations:</h4>
+                    {% if prediction == 'Healthy' %}
+                        <p>The plant is healthy with no visible signs of disease.</p>
+                    {% elif prediction == 'Early Blight' %}
+                        <p>The plant is showing early signs of blight, a common disease that causes lesions and defoliation.</p>
+                    {% elif prediction == 'Late Blight' %}
+                        <p>The plant is infected with late blight, a severe fungal disease causing rapid decay and crop loss.</p>
+                    {% endif %}
+                </div>
+
+                <div class="uploaded-image">
+                    <h4>Uploaded Image:</h4>
+                    <!-- Use the image_path passed from Flask to display the image -->
+                    <img src="{{ url_for('static', filename=image_path) }}" alt="Uploaded Image">
+                </div>
+            </div>
+        {% endif %}
+    </div>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
